@@ -52,27 +52,16 @@ DE01-Kloud-Kart/
 │   └── ADR-005-hire-order-engineer-then-analyst.md
 ├── presentation/            (to follow)
 └── improvement/
-    ├── improvement.md
-    ├── register.py
-    ├── test_register.py
-    └── sample_status_report.html
+    └── improvement.md
 ```
 
 ## Evidence boundary
 
 No dataset, query logs, server measurements or sample reports were supplied. Every finding rests on the brief or is labelled as an assumption or likely cause. Costs are given in time and effort, not currency, because no server price or salary figures were provided; quotes are a week-2 task in the roadmap. Legal points (Act 843 requirements, hosting abroad, Nigeria's rules, the agency contract) need a lawyer's review and are flagged as such throughout.
 
-## Running the improvement
+## The improvement deliverable
 
-Requires Python 3.8+ and nothing else.
-
-```text
-cd improvement
-python3 -m unittest -v        # 8 tests
-python3 register.py -h        # all commands
-```
-
-See `improvement/improvement.md`.
+The improvement beyond the brief (`improvement/improvement.md`) provides an operational data protection register and 4-step customer deletion protocol. It specifies how marketing exports must be recorded, tracked, and verified across all holding locations to ensure compliance with Ghana's Data Protection Act, 2012 (Act 843) within 30 days.
 
 ---
 

@@ -4,7 +4,7 @@
 
 Kloud Kart's three visible problems have three separate root causes, and all three are cheap to fix at the company's size. None needs a warehouse, a lakehouse or live dashboards.
 
-1. **The website and the reports share one machine.** Monday exports compete with customers for the same database, which is why the site crawled twice last month. The cause is the arrangement, not the size: the database is about 40 GB and the exports are a few hundred thousand rows.
+1. **The website and the reports share one machine.** Monday exports compete with customers for the same database, which is why the site crawled twice last month. With a total footprint of roughly 40 GB and weekly extracts spanning several hundred thousand rows, storage volume is not the bottleneck; the degradation stems from transactional locks and I/O contention caused by colocation.
 2. **Nobody owns the definition of a business number.** Nana and Finance each calculate figures by hand from their own copy, with their own rules. Until one definition exists, no tool can make their numbers agree.
 3. **Customer lists leave the database with no record.** About 300,000 people are on Marketing's list, and nobody knows how many copies exist or who holds them. That makes a 90-day response to a Data Protection Commission complaint difficult to meet and impossible to prove.
 
@@ -35,7 +35,7 @@ Ranking is by risk to Nana in front of the board: what is most likely to be aske
 - **How I detected it:** Stated in the brief. The 90-day complaint rule in the brief makes it concrete: the company would need to find every copy of a customer's data within that time.
 - **Scale:** About 300,000 people in one list. Number of copies, locations and holders: unknown. Whether any copy sits with an outside agency: unknown.
 - **Effect on the client's number:** None on revenue. The exposure is regulatory (Ghana's Data Protection Act, 2012 (Act 843), enforced by the Data Protection Commission) and reputational. I cannot put a cedi value on it; the brief gives no penalty or complaint history. The cost of a failure is the ability to answer "did you delete it?" truthfully.
-- **What I did about it:** Designed ADR-003 (register plus deletion routine) and built the register tool with tests (`improvement/`). It starts recording from day one; older copies still need the first-90-days search.
+- **What I did about it:** Designed ADR-003 and formulated an operational customer register and 4-stage deletion verification process (`improvement/improvement.md`). It establishes logging and retention limits immediately, with a discovery audit planned in Q1 for legacy copies.
 - **Residual risk:** Older copies are unknown; the register records what people declare, not what they hide. Spot-checks are built into the roadmap.
 
 ### F-02: Monday exports slow the live website — Severity: High
@@ -80,8 +80,8 @@ Ranking is by risk to Nana in front of the board: what is most likely to be aske
 |---|---|---|
 | No data warehouse or lakehouse | Investors expect one and the developer suggested buying one | The database is about 40 GB and grows 15–20% a year. The problem is sharing a machine and not agreeing definitions, and a warehouse fixes neither on its own (ADR-001, ADR-002). |
 | Not real-time everywhere | A board member saw a live dashboard elsewhere | The brief states only stock counts must be fresh; everything else can refresh daily (ADR-004). |
-| 4,000 orders a day on one machine | It sounds like it needs a larger system | It is about one order every 22 seconds. That is a moderate load; the trouble is mixing it with reports. |
-| No forecasting yet | "ML for demand forecasting" is on the wish list | Forecasting needs a stable, agreed history. Building it on numbers that disagree would forecast the disagreement. It is placed at the end of the year as a test, not a hire. |
+| 4,000 orders a day on one machine | It sounds like it needs a larger system | A transaction rate averaging roughly three orders a minute represents a modest write volume for standard MySQL; the instability occurs only when heavy read scans run simultaneously against active transactional tables. |
+| No forecasting yet | "ML for demand forecasting" is on the wish list | Supervised models require a consistent baseline; training algorithms on irreconcilable sales numbers merely automates operational confusion. Feasibility is evaluated in Q4 after figures are reconciled. |
 
 ## Could not verify
 

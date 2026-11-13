@@ -12,7 +12,7 @@ The board has budgeted two data hires this financial year. I have not seen the p
 
 | Days | Outcome |
 |---|---|
-| 1–30 | Reads the Monday queries and measures how long each takes and how much it reads. Works with the developer to put the second copy live and moves Monday's export onto it. Confirms how stock is checked at purchase. **Check:** Monday's export runs with no website slowdown. |
+| 1–30 | Reviews Monday export queries with the developer, takes over management of the read replica launched in Month 1, and migrates remaining analytical extracts. Confirms how stock is validated during checkout. **Check:** Monday's export runs on the replica with no website slowdown. |
 | 31–60 | Builds the first saved definitions from the ones signed by you and Finance, runs them against one week of real orders and reports every difference. **Check:** a list of why each gap exists. |
 | 61–90 | First version of the shared page with the six key numbers; stock view with "last updated" and a lag warning; a written set-up and recovery guide that someone else could follow. **Check:** you and Finance read the same figure; the developer follows the guide and rebuilds the second copy in a test. |
 

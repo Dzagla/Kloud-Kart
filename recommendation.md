@@ -8,11 +8,11 @@ Kloud Kart does not have a big-data problem. It has three small, fixable ones: r
 
 **Build first:**
 
-1. **A second copy of the database for reports only.** The server is already approved. Every report and export reads from it, so the website is never touched. (Decision 1)
-2. **One written definition per key number, shown on one page.** You and Finance read the same figures. (Decision 2)
-3. **A register of every customer list, and a tested routine for deletion requests.** Built and working. (Decision 3)
-4. **Up-to-the-minute stock, and daily everything else.** (Decision 4)
-5. **Two hires: a data engineer first, a data analyst second.** (Decision 5)
+1. **A dedicated read replica isolated for analytics and exports.** Sizing and budget are pre-cleared in principle, keeping production checkout isolated from reporting strain. (Decision 1)
+2. **Single, reconciled definitions for core performance numbers, displayed on a shared operational view.** Unifies operational metrics across Nana and Finance. (Decision 2)
+3. **A mandatory customer data extraction register paired with a step-by-step deletion verification workflow.** Operational protocol established and ready to deploy. (Decision 3)
+4. **Up-to-the-minute stock verification, with standard daily batch refresh for all other metrics.** (Decision 4)
+5. **Two sequenced hires: a data engineer first to secure pipelines, followed by an analyst.** (Decision 5)
 
 ## What it costs
 
@@ -23,7 +23,7 @@ I have no server price, current hosting bill or salary figures, so I will not in
 | Second server for reports | About the same monthly bill as the current server (quote needed) | Developer: 2–3 weeks |
 | Agreeing definitions | None | You and Finance: about 2 weeks |
 | Dashboard | Start with a free option; pay only if needed (quote needed) | First hire: 4–6 weeks |
-| Customer-list register | None (already built) | 5 minutes per export; 1 week to get Marketing and the agency using it |
+| Customer-list register | Operational policy (no tooling license) | 5 minutes per export logged; 1 week to align Marketing and agency partners |
 | Two data hires | The board's existing budget | n/a |
 | Legal check on the data law and agency contract | A lawyer's fee (quote needed) | Small |
 
@@ -31,14 +31,14 @@ For comparison, the options I recommend against cost far more: a cloud data ware
 
 ## Why this fits Kloud Kart, not Amazon
 
-About 4,000 orders a day is one every 22 seconds. The database is about 40 GB and grows 15–20% a year. That is small and slow-growing. A second copy of the database handles this comfortably for years. The tests that would tell us to buy something bigger are written down in Decision 1: more than about 12,000 orders a day, more than about 200 GB, or needing data from outside the website.
+With roughly 4,000 daily checkouts distributed over 24 hours and a 40 GB relational store expanding at 15–20% annually, transaction throughput is steady rather than volatile. A dedicated read-only replica provides ample headroom for reporting workloads across several years of expansion. The threshold conditions that would justify enterprise warehousing are clearly defined in Decision 1: sustained volumes exceeding 12,000 orders daily, database footprint passing 200 GB, or an operational need to blend diverse external transaction feeds.
 
 ## The wish list
 
-- **"A data warehouse, or maybe a lakehouse."** Not yet. It solves the same problem as the second server but adds cost, a new skill and a copy-of-data risk that needs a legal check. It is the next step once the triggers above are hit.
-- **"Real-time dashboards."** For stock only. Nothing else you do changes if a chart is seconds old rather than a day old. (Decision 4)
-- **"ML for demand forecasting, eventually."** Not this year, and not a hire. Forecasting built on numbers that disagree forecasts the disagreement. The roadmap ends the year with a check on whether the data is clean enough to try.
-- **"Just buy Snowflake or BigQuery."** The developer is right that it would work. It is the wrong first move for the reasons above, and Finance was right to flinch.
+- **"A data warehouse, or maybe a lakehouse."** Not yet. It solves the same isolation problem as a read replica but introduces recurring consumption billing, complex ETL maintenance, and cross-border data transfer concerns under Act 843. It becomes appropriate once the scale thresholds above are reached.
+- **"Real-time dashboards."** Strictly reserved for inventory. Operational decisions in merchandising and logistics do not change if aggregate performance figures update on a daily cadence rather than minute-by-minute. (Decision 4)
+- **"ML for demand forecasting, eventually."** Deferred until data baselines are stable. Training machine learning algorithms on inconsistent sales totals simply compounds accounting discrepancy into inventory errors. The roadmap evaluates readiness in Q4 as a feasibility assessment, not a dedicated hire.
+- **"Just buy Snowflake or BigQuery."** The developer correctly observes that cloud platforms can scale, but introducing variable-cost infrastructure before foundational metric definitions exist is premature, and Finance’s initial hesitation was justified.
 
 ## Decisions I made because you were unavailable
 

@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-13
+- **Author:** Data Strategy Engagement Team
 - **Decision owner:** Nana Adjei (Head of Operations)
 
 ## Context
@@ -12,9 +13,9 @@ The company also cannot simply stop Marketing exporting lists: campaign messages
 
 ## Decision
 
-Every customer list that leaves the main database must be recorded in a register (who, what, where, for what purpose, and an end date), and the holder destroys it by that date. Customer lists are only released from the reporting copy of the database to named people, and each release is logged. When a deletion request arrives, the register produces the checklist of every copy to clean, and the request is closed only when every step is signed off, with a 30-day internal target inside the 90-day limit. The default end date for a campaign list is 90 days (my decision; Nana can shorten it).
+Every customer list that leaves the main database must be recorded in a central register (who, what, where, for what purpose, and an end date), and the holder destroys it by that date. Customer lists are only released from the reporting copy of the database to named people, and each release is logged. When a deletion request arrives, the register produces the checklist of every copy to clean, and the request is closed only when every step is signed off, with a 30-day internal target inside the 90-day limit. The recommended default retention period for a campaign list is 90 days, subject to operational adjustment by Nana.
 
-The register and routine are built (see `improvement/`). Nothing in this decision depends on new software being bought.
+The operational register protocol and deletion workflow are fully detailed in `improvement/improvement.md`. Nothing in this decision requires purchasing commercial compliance software.
 
 ## Alternatives considered
 
@@ -32,9 +33,9 @@ The register and routine are built (see `improvement/`). Nothing in this decisio
 
 ## Consequences
 
-- **What this buys:** A same-day answer to "which copies hold this customer?" and an evidence file showing each step, who did it and when. Copies stop growing silently because every export has an owner and an end date. Nana can show the status page to the board.
-- **What this costs:** About 5 minutes per export, about 1 week of change management to get Marketing and the agency to follow it, and a standing duty for the second hire to review the register monthly. The agency contract needs a clause requiring it to delete on request, which needs a lawyer.
-- **What it costs the client if I am wrong:** The danger is false comfort. If people export without registering, the register shows fewer copies than exist, and Kloud Kart could tell the Commission something untrue in good faith. To limit that, a quarterly spot-check compares what Marketing and the agency actually hold against the register, and the first 90 days include a search for existing copies. A missed copy found later is a small breach of process; a missed copy found by the Commission is a larger problem.
+- **What this buys:** Rapid verification of every storage location holding a customer's record, and a structured evidence trail showing verified custodian sign-offs. Data proliferation is halted because extracts have enforced retention limits. Nana can present the monthly compliance dashboard directly to the board.
+- **What this costs:** Roughly 5 minutes per export logged, about 1 week of change management to train Marketing and external agencies, and a monthly audit review by the data analyst / steward. Agency contracts will require an explicit data-processing amendment drafted by legal counsel.
+- **Downside if assumptions fail:** The primary vulnerability is administrative evasion—if employees bypass the logging process, the register presents an incomplete picture. To mitigate this risk, quarterly spot-checks compare physical drive holdings against the register, paired with a comprehensive legacy discovery audit in Q1.
 - **What would make me revisit this:** Two or more unregistered copies found in any spot-check; a deletion request closed late; Marketing moving to a campaign tool that can hold customers inside Kloud Kart's control (then Alternative A becomes realistic); or a complaint received before the register is fully populated.
 
 ## What this survives

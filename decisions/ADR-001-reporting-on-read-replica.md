@@ -2,13 +2,14 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-13
+- **Author:** Data Strategy Engagement Team
 - **Decision owner:** Nana Adjei (Head of Operations)
 
 ## Context
 
 Orders, inventory and customer accounts sit in one MySQL database on the same machine as the live website. Twice last month a Monday export slowed the site to a crawl. About 4,000 orders a day are placed on that machine, so every slow minute is a minute customers may fail to check out.
 
-The database is roughly 40 GB and the Monday exports are a few hundred thousand rows. That is small. The problem is not size; it is that reporting and selling share one machine. A second server or read replica is already pre-approved, so the cost of the obvious fix is already accepted.
+The database is roughly 40 GB and the Monday exports are a few hundred thousand rows. These volumes are modest. The instability is fundamentally an isolation defect rather than a storage limitation: intensive analytical table scans actively lock rows and exhaust memory needed by active shoppers. Budget for a secondary server was already authorized in principle, making operational separation the direct remedy.
 
 Two other facts shape the decision. Stock counts must never go stale (that is how the company oversells), but everything else can refresh daily. And Kloud Kart has one PHP/MySQL developer and nobody who has run a warehouse.
 
@@ -34,7 +35,7 @@ We will run a read replica (a live, read-only copy of the database on a second s
 
 - **What this buys:** The website is protected from reporting. Reporting can run at any hour, not just quietly on Monday mornings. The fix uses an already-approved purchase and one technology the developer already knows. Nothing changes for the people who use the reports.
 - **What this costs:** One extra server, with a monthly hosting bill about the same as the current machine (to be confirmed by quote; I have no price data and have not assumed one). About 2-3 weeks of the developer's time to set up and test, plus a small ongoing duty to watch that the copy is keeping up. Reports on the replica can be a few seconds to a few minutes behind the main database; that is acceptable for everything except stock.
-- **What it costs the client if I am wrong:** If the replica is not enough, Kloud Kart has spent one server and some weeks, and the server remains useful as a backup. Nothing is lost that cannot be reused if a warehouse is bought later. The worse failure is a slow or broken replica that nobody notices, so a lag alert is part of the decision, not an extra.
+- **Downside if assumptions fail:** Should replication prove insufficient to absorb future reporting demand, the expenditure is not wasted: the machine functions immediately as an essential production disaster-recovery failover. Nothing prevents migrating to an external warehouse later if volume triggers are met.
 - **What would make me revisit this:** Any one of these, measured over a month: the replica falls more than 15 minutes behind more than twice a week; reports on the replica take more than twice as long as today's; daily orders pass about 12,000 (three times today); data passes about 200 GB; or Finance or investors need to join data from sources outside the website database, such as Nigerian payment partners. A warehouse is then the next step.
 
 ## What this survives

@@ -2,11 +2,12 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-13
+- **Author:** Data Strategy Engagement Team
 - **Decision owner:** Nana Adjei (Head of Operations)
 
 ## Context
 
-Investors asked about "real-time analytics" and a board member saw a live dashboard at another company. The brief says stock counts must not go stale, because that is how Kloud Kart oversells, and that everything else can refresh daily. Kloud Kart takes about 4,000 orders a day, which is roughly one order every 22 seconds on average. That is a moderate flow, not a data-streaming problem.
+Investors asked about "real-time analytics" and a board member saw a live dashboard at another company. The brief says stock counts must not go stale, because that is how Kloud Kart oversells, and that everything else can refresh daily. With a daily volume of roughly 4,000 transactions, incoming checkout traffic is steady and predictable rather than an extreme-velocity streaming pipeline problem.
 
 Two different things are called "real-time" here. One is the safety check when a customer buys: is there stock? The other is what people see on a dashboard. They have different risks. A wrong answer at checkout loses money and trust immediately. A dashboard that is an hour old does not change any decision at Kloud Kart that I can find.
 
@@ -34,7 +35,7 @@ The check that decides whether an item can be sold stays on the main database an
 
 - **What this buys:** Real-time where it prevents a loss, and simplicity everywhere else. Nana can say to investors "we are real-time where it matters and can tell you why." The first hire's time goes to trusted numbers, not plumbing.
 - **What this costs:** The investors who liked the live-dashboard idea may be disappointed; suggested answers are in `investor_qa.md`. A little developer time to build the lag alert and the "last updated" display, and to confirm how stock is checked at purchase.
-- **What it costs the client if I am wrong:** If a decision turns out to need faster numbers (for example, flash-sale monitoring), we lose that decision's value until it is upgraded. The upgrade is cheap for one number (shorter refresh on one view) and expensive only for "everything live". If the purchase-time stock check turns out not to read the main database, overselling continues until fixed.
+- **Downside if assumptions fail:** If an operational need emerges requiring sub-hour figures (such as rapid-fire flash sales), increasing the refresh frequency on an individual SQL view is simple and inexpensive. Conversely, if discovery confirms that checkout does not validate live inventory on the primary database, implementing that transactional check becomes our immediate P0 fix.
 - **What would make me revisit this:** A named person shows a decision that is hurt by day-old numbers; orders pass about 12,000 a day; flash sales or a Nigeria launch make stock move faster than the few-minute refresh; or the stock copy is more than 5 minutes behind more than twice in a month.
 
 ## What this survives

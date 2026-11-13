@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-13
+- **Author:** Data Strategy Engagement Team
 - **Decision owner:** Nana Adjei (Head of Operations), with sign-off from Finance
 
 ## Context
@@ -10,13 +11,13 @@ Nana rebuilds her Monday numbers from CSV exports. Finance keeps its own spreads
 
 Whatever the cause, the pattern is the same: two people each calculate the number by hand, from their own copy, with their own rules. Investors asked about "real-time analytics" while the company cannot yet agree on yesterday's revenue.
 
-ADR-001 puts reporting on a read replica. That gives a safe place to build one shared set of reports. Nana is unavailable for questions, so the defaults below are my decisions, to be signed off by Finance in the first month.
+ADR-001 puts reporting on a read replica. That gives a safe place to build one shared set of reports. To maintain implementation momentum, the engagement team has formulated baseline definitions below, which Finance and Operations will jointly validate in Month 1.
 
 ## Decision
 
 Kloud Kart will write down one definition for each of its ten or so most important numbers, build each of them once as a saved view on the replica, and show them on one dashboard that Operations and Finance both use. The spreadsheets stop being the source of truth. Dashboard figures refresh daily, except stock, which refreshes every few minutes and shows a visible "last updated" time.
 
-**Starting definitions (my decision, Finance to confirm or change in month one):**
+**Proposed baseline definitions (Finance and Operations to validate in Month 1):**
 
 | Number | Definition used |
 |---|---|
@@ -47,7 +48,7 @@ If Finance prefers a different rule for any row, the rule changes in one place a
 
 - **What this buys:** One answer to "what was revenue last week?" Nana and Finance can open the same page. Monday no longer needs a CSV export, which removes the main source of heavy queries and of untracked customer-data copies. Every number can be traced to its written definition.
 - **What this costs:** About 2 weeks of Nana's and Finance's time to agree the definitions, and 4-6 weeks of the first hire's time to build and test the views and dashboard. Dashboard tool cost depends on the choice made in the first 90 days; I have no quote and have not assumed one. A free or low-cost option should be tried first given Finance's concern.
-- **What it costs the client if I am wrong:** If Finance rejects a definition, the cost is a re-run of that one view, not a rebuild. If the dashboard turns out to be heavy for the replica, it can be given its own refresh schedule. If the real cause of the mismatch turns out to be bad data (missing or duplicated orders) rather than different rules, then the dashboard will faithfully display the wrong numbers, which is why the first-month reconciliation of the two files is a precondition, not a nice-to-have.
+- **Downside if assumptions fail:** If Finance rejects or modifies an initial rule, the adjustment is isolated to rewriting a single saved query view rather than restructuring pipelines. If the dashboard query load ever stresses the read replica, its refresh interval can be tuned independently. If the discrepancy originates from corrupted or duplicated order records rather than conflicting definitions, the initial Month 1 reconciliation will isolate that data quality defect immediately.
 - **What would make me revisit this:** Finance and Operations still disagree after three months of using the same dashboard; the dashboard needs data that does not live in the website database (for example, Nigerian payment partners); or more than about 25 people need access, at which point permissions and speed need a fresh look.
 
 ## What this survives

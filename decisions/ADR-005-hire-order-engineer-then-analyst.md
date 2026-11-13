@@ -2,6 +2,7 @@
 
 - **Status:** Accepted
 - **Date:** 2026-11-13
+- **Author:** Data Strategy Engagement Team
 - **Decision owner:** Nana Adjei (Head of Operations)
 
 ## Context
@@ -20,7 +21,7 @@ The first hire is a data engineer with strong database and reporting skills, sta
 
 - **How it would work:** An analyst starts first, takes the reconciliation with Finance, writes the definitions, owns the register and builds the first reports.
 - **Why it is attractive:** The visible pain is that Nana's and Finance's numbers disagree. An analyst could reach that faster than an engineer. The register and definitions need no engineering.
-- **Why rejected:** Without the reporting copy and saved views, the analyst would build reports on the same shared server, repeating the Monday slowdowns, or rely on more spreadsheet exports, which is the problem we are fixing. The developer is also the only person who can set up the replica and cannot do it plus the dashboard plus their day job. The compliance register is already built and Nana can run it in the meantime.
+- **Why rejected:** Without the reporting copy and saved views, the analyst would build reports on the same shared server, repeating the Monday slowdowns, or rely on more spreadsheet exports, which is the problem we are fixing. The developer is also the only person who can set up the replica and cannot do it plus the dashboard plus their day job. The operational compliance register is already designed and Nana can oversee it manually in the interim.
 
 ### Alternative B: Two engineers
 
@@ -32,7 +33,7 @@ The first hire is a data engineer with strong database and reporting skills, sta
 
 - **What this buys:** The reporting copy, dashboard and a documented set-up arrive in the first two quarters, so the second hire starts with trusted data. It also reduces the risk of one person holding all the knowledge.
 - **What this costs:** About three to four months with no dedicated analyst. During that time Nana and Finance spend about 2 weeks on definitions and Nana runs the register. The roles are in `hiring_plan.md`. The salaries are the board's existing budget; I have not seen the figures.
-- **What it costs the client if I am wrong:** If the analyst should have come first, the cost is a slower reconciliation and a longer wait for one agreed number, perhaps by a quarter. If the engineer cannot be hired in time, the developer sets up the replica alone with Nana covering definitions, and the plan slips by weeks, not months.
+- **Downside if assumptions fail:** If prioritization favored the analyst first, the trade-off would be a slower metric alignment process by approximately one quarter, while the developer shoulders replica setup alone. If recruitment of the engineer slips, the developer launches the replica while Nana drives definition alignment directly with Finance.
 - **What would make me revisit this:** The first hire has not started by month 3; the reconciliation reveals data errors that are not fixable by definitions; or the first hire turns out to be strong on analysis and weak on engineering (swap the order).
 
 ## What this survives
