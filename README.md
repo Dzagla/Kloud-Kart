@@ -1,150 +1,81 @@
 # DE01 — Kloud Kart Data Strategy & Architecture Case Study
 
-## Overview
+Submission repository for the DE01 Data Engineering and Analytics case study. Kloud Kart is an Accra e-commerce company (about 4,000 orders a day, piloting Nigeria) whose orders, stock and customer accounts share one MySQL database with the live website. The brief asks what the company should build first, at its size and budget, and how to defend it to a board.
 
-This project is part of the **DE01 Data Engineering and Analytics** learning programme.
+## The recommendation in four lines
 
-It focuses on developing and evaluating a data strategy for **Kloud Kart**, a fictional e-commerce company based in Accra, Ghana, that is experiencing challenges with its data infrastructure, reporting processes and customer data management.
+1. Move all reports onto the pre-approved second copy of the database so the website is never touched by reporting.
+2. Write one definition per key business number and show them on one shared page.
+3. Register every customer list that leaves the company and run deletion requests through a tested routine.
+4. Keep stock up to the minute and everything else daily; hire a data engineer first and a data analyst second; defer a warehouse, wider real-time and forecasting, each with a written trigger.
 
-The project involves analysing the company's existing situation, evaluating architectural options, documenting decisions and communicating a practical data strategy that supports business growth.
+## Where to find each deliverable
 
-## Case Study Background
-
-Kloud Kart is an e-commerce business processing approximately 4,000 orders daily. Its orders, inventory and customer account information are stored in a MySQL database running on the same machine as its live website.
-
-The company faces several challenges:
-
-- Heavy reporting exports have slowed down the live website.
-- Operations and Finance produce conflicting business figures.
-- Customer information is exported for marketing without adequate tracking of copies.
-- The company wants to improve its data capabilities while preparing for expansion into Nigeria.
-
-Management is considering investments in data warehousing, real-time analytics and machine learning. However, the company has limited resources and only has the budget for two data engineering hires.
-
-## Project Objectives
-
-The objectives of this project are to:
-
-1. Assess the company's existing data architecture and identify its major weaknesses.
-2. Evaluate possible data engineering solutions against business requirements.
-3. Develop a practical and cost-conscious data strategy.
-4. Document important architectural decisions and their trade-offs.
-5. Develop a 12-month implementation roadmap.
-6. Communicate recommendations to business stakeholders.
-7. Build an additional improvement that provides value beyond the original requirements.
-
-## Project Deliverables
-
-The project is organised around five major deliverables.
-
-| Deliverable | Description |
+| Deliverable | File |
 |---|---|
-| 1. Data Findings | Document identified problems, evidence, risks and outstanding uncertainties. |
-| 2. Client Recommendation & Roadmap | Present the proposed strategy and a quarterly 12-month implementation plan. |
-| 3. Architecture Decision Records (ADRs) | Document important architectural decisions, alternatives and consequences. |
-| 4. Board Presentation | Communicate findings, recommendations, costs and implementation plans in business-friendly language. |
-| 5. Additional Improvement | Build and document one practical improvement beyond the original case requirements. |
+| 1. Situation diagnosis (ranked findings) | `data_findings.md` |
+| 2. Recommendation (2 pages) | `recommendation.md` |
+| 2. Client memo (1 page) | `client_memo.md` |
+| 2. Roadmap (1 page, quarterly) | `roadmap.md` |
+| 2. Hiring plan, first 90 days | `hiring_plan.md` |
+| 2. Investor questions | `investor_qa.md` |
+| 3. Decision records | `decisions/ADR-001` to `ADR-005` |
+| 4. Board presentation | `presentation/` (**not yet produced**) |
+| 5. Improvement beyond the brief | `improvement/` (customer-data register, built and tested) |
 
-## Key Project Constraints
+## Decision records
 
-The proposed strategy must account for the following case-study constraints:
+| ADR | Decision | Rejected alternatives |
+|---|---|---|
+| 001 | Move all reporting and exports to a read replica | Scale up the single machine; buy a cloud warehouse |
+| 002 | One definition per business number, served from the replica | Separate spreadsheets; warehouse-first build |
+| 003 | Customer-list register and tested deletion routine | Block all exports; written policy with yearly audit |
+| 004 | Only stock is fresh to the minute; everything else daily | Real-time everything; daily everything |
+| 005 | Hire the engineer first, the analyst second | Analyst first; two engineers |
 
-- A maximum of two data engineering hires.
-- The existing MySQL database and live website must remain operational.
-- Recommendations must account for Ghana's Data Protection Act, 2012 (Act 843).
-- The company must be able to respond to a Data Protection Commission complaint concerning deleted customer information within 90 days.
-- Inventory information cannot become stale because of the risk of overselling.
-- Other business information can be refreshed daily.
-- A second server or read replica has been pre-approved.
-- Recommendations must be understandable to non-technical stakeholders.
-
-## Repository Structure
+## Repository structure
 
 ```text
 DE01-Kloud-Kart/
-│
 ├── README.md
-│
 ├── data_findings.md
-│
+├── recommendation.md
 ├── client_memo.md
-│
 ├── roadmap.md
-│
+├── hiring_plan.md
+├── investor_qa.md
 ├── decisions/
-│   ├── ADR-001-short-slug.md
-│   ├── ADR-002-short-slug.md
-│   ├── ADR-003-short-slug.md
-│   └── ADR-004-short-slug.md
-│
-├── presentation/
-│   └── kloud-kart-board-presentation.pptx
-│
+│   ├── ADR-001-reporting-on-read-replica.md
+│   ├── ADR-002-one-definition-per-number.md
+│   ├── ADR-003-customer-list-register-and-deletion-routine.md
+│   ├── ADR-004-real-time-for-stock-only.md
+│   └── ADR-005-hire-order-engineer-then-analyst.md
+├── presentation/            (to follow)
 └── improvement/
     ├── improvement.md
-    └── [additional working artefact]
+    ├── register.py
+    ├── test_register.py
+    └── sample_status_report.html
 ```
 
-*The structure above is the suggested organisation for the submission. Filenames and folders should reflect the actual files included in the final repository.*
+## Evidence boundary
 
-## Approach
+No dataset, query logs, server measurements or sample reports were supplied. Every finding rests on the brief or is labelled as an assumption or likely cause. Costs are given in time and effort, not currency, because no server price or salary figures were provided; quotes are a week-2 task in the roadmap. Legal points (Act 843 requirements, hosting abroad, Nigeria's rules, the agency contract) need a lawyer's review and are flagged as such throughout.
 
-The project follows a structured approach to data strategy development:
+## Running the improvement
 
-1. **Understand the business:** Examine the case study, business needs and operational constraints.
-2. **Identify problems:** Separate observed issues from possible root causes and unverified assumptions.
-3. **Evaluate options:** Consider available architectural approaches, their costs, benefits and operational requirements.
-4. **Document decisions:** Record significant decisions and the alternatives considered.
-5. **Plan implementation:** Translate the proposed strategy into measurable quarterly business outcomes.
-6. **Communicate findings:** Prepare a board-ready presentation and client recommendation.
-7. **Build an improvement:** Develop an additional practical artefact and explain its value.
+Requires Python 3.8+ and nothing else.
 
-## Technology and Architecture Considerations
+```text
+cd improvement
+python3 -m unittest -v        # 8 tests
+python3 register.py -h        # all commands
+```
 
-The case study involves evaluating concepts and approaches including:
-
-- Relational databases and database replication.
-- Data extraction and transformation.
-- Batch and stream processing.
-- Data warehouses, data lakes and data marts.
-- Data quality and data governance.
-- Data modelling and business metrics.
-- Data privacy and regulatory compliance.
-
-Specific technologies and services should only be included where they are justified by the project requirements.
-
-## Compliance Considerations
-
-Data management recommendations must consider Ghana's Data Protection Act, 2012 (Act 843).
-
-Particular attention should be given to:
-
-- Customer data protection.
-- Access control and accountability.
-- Tracking exported copies of personal data.
-- Data retention and deletion.
-- Regulatory obligations and response requirements.
-
-## Project Status
-
-This repository serves as the working and submission repository for the DE01 Kloud Kart case study.
-
-Each deliverable should be reviewed for completeness, supporting evidence and consistency with the final architectural decisions.
-
-## Learning Outcomes
-
-Through this project, the learner demonstrates an understanding of:
-
-- Data engineering principles and architecture.
-- Business-driven technology decisions.
-- Data lifecycle management.
-- Architectural trade-offs.
-- Data governance and quality.
-- Technical communication and stakeholder engagement.
+See `improvement/improvement.md`.
 
 ---
 
-**Project:** DE01 — Kloud Kart Data Strategy & Architecture Case Study  
-**Domain:** Data Engineering and Analytics  
-**Case Study:** E-commerce Data Strategy  
+**Project:** DE01 — Kloud Kart Data Strategy & Architecture Case Study
+**Domain:** Data Engineering and Analytics
 **Location:** Accra, Ghana
