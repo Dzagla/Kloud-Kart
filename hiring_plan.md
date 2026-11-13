@@ -12,11 +12,11 @@ The board has budgeted two data hires this financial year. I have not seen the p
 
 | Days | Outcome |
 |---|---|
-| 1–30 | Reviews Monday export queries with the developer, takes over management of the read replica launched in Month 1, and migrates remaining analytical extracts. Confirms how stock is validated during checkout. **Check:** Monday's export runs on the replica with no website slowdown. |
-| 31–60 | Builds the first saved definitions from the ones signed by you and Finance, runs them against one week of real orders and reports every difference. **Check:** a list of why each gap exists. |
-| 61–90 | First version of the shared page with the six key numbers; stock view with "last updated" and a lag warning; a written set-up and recovery guide that someone else could follow. **Check:** you and Finance read the same figure; the developer follows the guide and rebuilds the second copy in a test. |
+| 1-30 | Reviews Monday export queries with the developer, takes over management of the read replica launched in Month 1, and migrates remaining analytical extracts. Confirms how stock is validated during checkout. **Check:** Monday's export runs on the replica with no website slowdown. |
+| 31-60 | Builds the first saved definitions from the ones signed by you and Finance, runs them against one week of real orders and reports every difference. **Check:** a list of why each gap exists. |
+| 61-90 | First version of the shared page with the six key numbers; stock view with "last updated" and a lag warning; a written set-up and recovery guide that someone else could follow. **Check:** you and Finance read the same figure; the developer follows the guide and rebuilds the second copy in a test. |
 
-## Hire 2: Data analyst and data steward (starts about 3–4 months after Hire 1)
+## Hire 2: Data analyst and data steward (starts about 3-4 months after Hire 1)
 
 **What they own:** The meaning of the numbers, the customer-list register, the monthly check and the link to Finance, Marketing and Operations. They answer "why did this number change?" and "who has this customer's data?"
 
@@ -26,9 +26,9 @@ The board has budgeted two data hires this financial year. I have not seen the p
 
 | Days | Outcome |
 |---|---|
-| 1–30 | Takes over the register from you; reviews every entry with its holder; confirms end dates. Reads the data protection law and the agency contract with a lawyer. **Check:** register entries each have an owner and an end date. |
-| 31–60 | Runs a practice deletion request from receipt to evidence file. Finds out where it was slow and fixes it. **Check:** the practice finishes inside the 30-day target. |
-| 61–90 | Spot-checks Marketing and the agency against the register; adds Nigeria to the definitions; starts a monthly one-page report for you on gaps, late copies and open requests. **Check:** the first monthly report arrives and finds no unregistered list. |
+| 1-30 | Takes over the register from you; reviews every entry with its holder; confirms end dates. Reads the data protection law and the agency contract with a lawyer. **Check:** register entries each have an owner and an end date. |
+| 31-60 | Runs a practice deletion request from receipt to evidence file. Finds out where it was slow and fixes it. **Check:** the practice finishes inside the 30-day target. |
+| 61-90 | Spot-checks Marketing and the agency against the register; adds Nigeria to the definitions; starts a monthly one-page report for you on gaps, late copies and open requests. **Check:** the first monthly report arrives and finds no unregistered list. |
 
 ## What neither hire does this year
 

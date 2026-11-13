@@ -19,19 +19,19 @@ Submission repository for the DE01 Data Engineering and Analytics case study. Kl
 | 2. Roadmap (1 page, quarterly) | `roadmap.md` |
 | 2. Hiring plan, first 90 days | `hiring_plan.md` |
 | 2. Investor questions | `investor_qa.md` |
-| 3. Decision records | `decisions/ADR-001` to `ADR-005` |
-| 4. Board presentation | `presentation/Kloud-Kart-Board-Presentation.pptx`  |
-| 5. Improvement beyond the brief | `improvement/improvement.md`  |
+| 3. Decision records | `decisions/ADR-001-reporting-on-read-replica.md` to `ADR-005-hire-order-engineer-then-analyst.md` |
+| 4. Board presentation | `presentation/Kloud-Kart-Board-Presentation.pptx` |
+| 5. Improvement beyond the brief | `improvement/improvement.md` |
 
 ## Decision records
 
 | ADR | Decision | Rejected alternatives |
 |---|---|---|
-| 001 | Move all reporting and exports to a read replica | Scale up the single machine; buy a cloud warehouse |
-| 002 | One definition per business number, served from the replica | Separate spreadsheets; warehouse-first build |
-| 003 | Customer-list register and tested deletion routine | Block all exports; written policy with yearly audit |
-| 004 | Only stock is fresh to the minute; everything else daily | Real-time everything; daily everything |
-| 005 | Hire the engineer first, the analyst second | Analyst first; two engineers |
+| [`ADR-001`](decisions/ADR-001-reporting-on-read-replica.md) | Move all reporting and exports to a read replica | Scale up the single machine; buy a cloud warehouse |
+| [`ADR-002`](decisions/ADR-002-one-definition-per-number.md) | One definition per business number, served from the replica | Separate spreadsheets; warehouse-first build |
+| [`ADR-003`](decisions/ADR-003-customer-list-register-and-deletion-routine.md) | Customer-list register and tested deletion routine | Block all exports; written policy with yearly audit |
+| [`ADR-004`](decisions/ADR-004-real-time-for-stock-only.md) | Only stock is fresh to the minute; everything else daily | Real-time everything; daily everything |
+| [`ADR-005`](decisions/ADR-005-hire-order-engineer-then-analyst.md) | Hire the engineer first, the analyst second | Analyst first; two engineers |
 
 ## Repository structure
 
@@ -50,7 +50,8 @@ DE01-Kloud-Kart/
 │   ├── ADR-003-customer-list-register-and-deletion-routine.md
 │   ├── ADR-004-real-time-for-stock-only.md
 │   └── ADR-005-hire-order-engineer-then-analyst.md
-├── presentation/            (to follow)
+├── presentation/
+│   └── Kloud-Kart-Board-Presentation.pptx
 └── improvement/
     └── improvement.md
 ```

@@ -13,7 +13,7 @@ Each quarter ends with something you can check yourself. Month 1 starts when the
 
 - **Earlier:** If the developer confirms stock is not checked at purchase, fixing that jumps to the front of Q1.
 - **Later:** If the engineer starts after month 3, the second-copy work stays with the developer and the shared page slips by about a quarter.
-- **Triggers that change the plan:** More than about 12,000 orders a day, more than about 200 GB, a second copy more than 15 minutes behind twice a week, or a need for data from outside the website database. Any one starts a warehouse review.
+- **Triggers that change the plan (planning assumptions & judgement calls to be validated in Q4):** More than about 12,000 orders a day (3× current volume), database footprint exceeding 200 GB (5× current size), a read replica falling more than 15 minutes behind twice a week, or an operational requirement to join data from external payment partners in Nigeria. Any one initiates a formal cloud warehouse review.
 
 ## What is not in the plan
 

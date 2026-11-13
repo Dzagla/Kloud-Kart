@@ -1,6 +1,6 @@
 # Recommendation: what Kloud Kart should build first
 
-**For:** Nana Adjei, Head of Operations   **Date:** 13 November 2026
+**For:** Nana Adjei, Head of Operations   **Date:** November 2026 (Engagement Date)
 
 ## The answer
 

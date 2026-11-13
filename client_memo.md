@@ -1,14 +1,14 @@
 # Memo to Nana
 
 **From:** Data Strategy Engagement Team
-**Date:** 13 November 2026
+**Date:** November 2026 (Engagement Date)
 **Subject:** Protecting the website, agreeing one set of numbers, and tracking customer lists
 
 ## What I found
 
-- **Reporting queries and live shoppers compete on the same host.** Heavy Monday exports lock resources against active customer checkouts, triggering the two severe slowdowns last month. Kloud Kart's data volume is modest; the core vulnerability is running analytics directly against the production engine.
+- **Reporting queries and live shoppers compete on the same host.** Heavy Monday exports are the likely cause of the two severe site slowdowns last month, presumed to lock database resources against active customer checkouts. While unmeasured due to lack of query logs, running analytical extracts on the primary transactional database is the clear suspect; moving reports isolates this risk entirely.
 - **Key business metrics lack a single source of truth.** Operations and Finance work from separate manual exports with differing calculation rules, ensuring executive figures diverge every week.
-- **Customer lists containing roughly 300,000 records circulate without centralized custody.** Under Ghana's Act 843, the company has 90 days to verify the complete erasure of a customer's personal data upon request, which is currently unprovable across distributed files.
+- **Customer lists containing roughly 300,000 records circulate without centralized custody.** Under Ghana's Data Protection Act, 2012 (Act 843), the company faces an assumed 90-day statutory response window to verify the complete erasure of a customer's personal data upon request (a requirement subject to confirmation by legal counsel), which is currently unprovable across distributed files.
 
 ## Deliverables delivered
 
@@ -19,7 +19,7 @@
 | Hiring plan & sequence | Complete | First 90-day onboarding deliverables for a data engineer followed by an analyst |
 | Investor & board defense | Complete | Plain, commercial answers to ten tough questions from the board |
 | Customer data compliance register | Complete | Detailed operational protocol, retention rules, and a deletion checklist to satisfy Act 843 |
-| Board slides | In progress | Presentation deck to follow |
+| Board slides | Complete | presentation/Kloud-Kart-Board-Presentation.pptx |
 
 ## Strategic recommendations
 
