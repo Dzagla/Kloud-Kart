@@ -1,39 +1,34 @@
 # Memo to Nana
 
-**From:** Data Strategy Engagement Team  
-**Date:** 12 November 2026  
-**Subject:** Reporting reliability, website performance and customer-data handling
+**From:** Data Strategy Engagement Team
+**Date:** 13 November 2026
+**Subject:** Protecting the website, agreeing one set of numbers, and tracking customer lists
 
 ## What I found
 
-Three issues need attention:
-
-- **Customer information:** Marketing exports a customer list of approximately 300,000 people, but copies are not tracked. This could make it difficult to locate and manage every copy when a customer requests deletion.
-- **Website performance:** The live website and MySQL database run on the same machine. Monday reporting exports have slowed the live site twice in the past month.
-- **Different business figures:** Nana's Monday figures do not match Finance's spreadsheet. The reason for the difference has not yet been established.
-
-The reporting slowdown may be made worse by queries retrieving more historical records or columns than a report needs. This is a possibility to test, not a confirmed cause.
+- **Reports and shoppers share one machine.** Every Monday export competes with customers, which is why the site crawled twice last month. The data is small; size is not the problem.
+- **Two people calculate the same numbers separately.** Yours and Finance's never match because each is built by hand, from a separate export, with its own rules.
+- **Nobody knows where the 300,000-person customer list has gone.** If a customer asks to be forgotten, we cannot say where every copy is, and we have 90 days to prove it.
 
 ## What I built
 
-I documented the known findings, their possible business effects, and the evidence still needed. The performance investigation should compare the reporting period required with the data actually scanned and returned, and review query execution plans and server/database resource use.
-
-## What you asked for
-
 | What you asked for | Status | Evidence |
 |---|---|---|
-| Reliable reporting | Investigation required | Nana's and Finance's figures differ; the cause is not yet verified |
-| Protect the live website during reporting | Investigation and solution required | Two slowdowns during Monday exports are reported in the case |
-| Handle customer information responsibly | Investigation and controls required | Customer exports are not tracked, according to the case |
-| Fresh stock information | Requirement identified | The case says stock counts cannot go stale |
-| Real-time information for every other area | Not established as necessary | The case allows other data to refresh daily |
+| A plan you can defend | Done | 2-page recommendation; five written decisions, each with a rejected alternative |
+| A 12-month roadmap | Done | One page, four quarters, each with something you can check |
+| Two roles to hire, in order | Done | Hiring plan with each person's first 90 days |
+| Answers to investors | Done | Ten hard questions, answered plainly |
+| A way to track customer lists | Built, tested | A register that lists every copy to clean when a deletion request arrives, and a status page for you |
+| Board slides | Not started | Next step |
 
 ## What I recommend
 
-My current proposal is to assess a read replica as a way to isolate reporting queries from the live website's primary database. Before committing to it, first examine and, where appropriate, optimise the existing reporting queries. In particular, check whether they retrieve unnecessary historical records, select unnecessary columns, or perform expensive scans, joins, sorting or aggregations.
-
-The read-replica proposal should be confirmed only after comparing the measured benefit with the additional server, replication monitoring, lag management and operational work it introduces. The team should also verify that reporting activity on the replica will not create unacceptable load on the primary database.
+1. **Move all reports to a second copy of the database.** The server is already approved. The website is then left alone.
+2. **Write one plain-words definition for each key number** and show them on one page that you and Finance both use. I have chosen starting definitions; Finance confirms them in month one.
+3. **Record every customer list that leaves the company**, with an owner and an end date. Start now.
+4. **Hire the data engineer first, the data analyst about three months later.**
+5. **For now, say no to a big separate data store, live charts for everything, and forecasting.** Stock stays up to the minute; the rest updates daily.
 
 ## What I could not stand behind
 
-The available case information does not establish the exact technical cause of the slowdowns, the size or cause of the reporting mismatch, the number and locations of customer-data copies, or the revenue affected. No query logs, execution plans, server metrics or sample reports were supplied. These points must be verified before presenting them as facts.
+I had no records of what the reports ask of the database, no sample reports and no server measurements. So I cannot yet say exactly why the site slowed, how big the gap with Finance is, or how many customer-list copies exist. I assumed the website checks live stock at the moment of purchase; **please have the developer confirm this first.** I have no server price or salary figures, so costs are given in time, with quotes to follow. Please have a lawyer check the legal points.

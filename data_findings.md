@@ -2,83 +2,96 @@
 
 ## Summary
 
-Kloud Kart has three evidenced areas of concern:
+Kloud Kart's three visible problems have three separate root causes, and all three are cheap to fix at the company's size. None needs a warehouse, a lakehouse or live dashboards.
 
-1. **Customer-data handling:** Marketing exports customer lists, but the case does not establish that copies are tracked. This creates a risk when customers request deletion and the company must locate and manage every copy of their personal data.
-2. **Live-site performance:** Monday reporting exports have slowed the live website twice in the last month. The reporting workload is therefore affecting an operational system.
-3. **Inconsistent reporting:** Nana's Monday figures do not match Finance's spreadsheet. The company does not yet have an evidenced, organisation-wide agreement on how key business metrics are defined and calculated.
+1. **The website and the reports share one machine.** Monday exports compete with customers for the same database, which is why the site crawled twice last month. The cause is the arrangement, not the size: the database is about 40 GB and the exports are a few hundred thousand rows.
+2. **Nobody owns the definition of a business number.** Nana and Finance each calculate figures by hand from their own copy, with their own rules. Until one definition exists, no tool can make their numbers agree.
+3. **Customer lists leave the database with no record.** About 300,000 people are on Marketing's list, and nobody knows how many copies exist or who holds them. That makes a 90-day response to a Data Protection Commission complaint difficult to meet and impossible to prove.
 
-The shared MySQL database and live website running on the same machine are an established architectural constraint. However, the exact technical cause of the slowdowns has not been measured. Inefficient reporting queries—including queries that retrieve or process more historical data than the report needs—are additional possibilities to investigate, not confirmed findings.
+Two further risks sit beneath these: one developer holds all the knowledge, and the board is being asked to buy things (a warehouse, live dashboards, forecasting) that do not address any of the three causes above.
 
-No source dataset, query logs, execution plans, server metrics, or sample exports were supplied for this assessment. Therefore, row counts, financial effects, and technical root causes cannot yet be quantified.
+No dataset, query logs, server measurements or sample reports were supplied. Findings rest on the case brief, and where I name a likely cause I say so. The first month of the roadmap exists to turn these likely causes into measured ones.
 
 ## Reconciliation
 
-No source files or row-level data were supplied, so a numerical reconciliation cannot be performed.
+No source files or row-level data were supplied, so no real reconciliation is possible. This table shows the reconciliation that must be run in the first month. It is a plan, not a result.
 
 | Stage | Rows | Delta | Reason |
-|---|---:|---:|---|
-| Source orders | Not supplied | Not calculable | No source extract provided |
-| Nana's Monday report | Not supplied | Not calculable | No report supplied |
-| Finance spreadsheet | Not supplied | Not calculable | No spreadsheet supplied |
+|---|---|---|---|
+| Orders in the main database for one fixed week | Not supplied | n/a | Starting point; counted by the single definition in ADR-002 |
+| Nana's Monday report for the same week | Not supplied | Not calculable | To be compared line by line with the row above |
+| Finance's spreadsheet for the same week | Not supplied | Not calculable | To be compared line by line with the row above |
+| Remaining gap, split into: different rules, different cut-off times, missing or duplicate orders, hand-calculation errors | Not supplied | Not calculable | Each gap is assigned to one cause, so it can be fixed once |
 
-The mismatch between Nana's and Finance's figures is stated in the case brief, but its size and cause remain unverified.
+Scale for reference, from the brief: about 4,000 orders a day, so roughly 28,000 in a week. A gap of even 1% is about 280 orders.
 
 ## Findings, ranked by risk
 
-### F-01: Customer-data copies are not tracked — Severity: High (provisional)
+Ranking is by risk to Nana in front of the board: what is most likely to be asked, most damaging if unanswered, and hardest to fix after the fact.
 
-- **What it is:** Marketing exports customer lists, but the case indicates that copies are not tracked. If the company cannot identify where exported personal data is stored or who holds it, responding to a deletion request within the stated 90-day period may be difficult.
-- **How I detected it:** This is stated in the Kloud Kart case brief: Marketing exports customer lists without copy tracking, and the company must be able to respond to a Data Protection Commission complaint within 90 days.
-- **Scale:** The Marketing list contains approximately 300,000 people. The number of exported copies, their locations, and the number of people represented in each copy are not known.
-- **Effect on the client's number:** No direct effect on a business metric has been quantified. The potential effects are regulatory, financial, operational, and reputational.
-- **What I did about it:** Identified customer-data copy tracking and the ability to locate and manage copies as areas requiring investigation and control.
-- **Residual risk:** The actual locations of copies, access permissions, retention practices, deletion procedures, and evidence of compliance have not been verified.
+### F-01: Customer-list copies are not tracked — Severity: High
 
-### F-02: Reporting exports affect live-site performance — Severity: High (provisional)
+- **What it is:** Marketing exports lists of about 300,000 customers and the company keeps no record of where the copies are or who holds them. Root cause: there is no register and no end date on any export.
+- **How I detected it:** Stated in the brief. The 90-day complaint rule in the brief makes it concrete: the company would need to find every copy of a customer's data within that time.
+- **Scale:** About 300,000 people in one list. Number of copies, locations and holders: unknown. Whether any copy sits with an outside agency: unknown.
+- **Effect on the client's number:** None on revenue. The exposure is regulatory (Ghana's Data Protection Act, 2012 (Act 843), enforced by the Data Protection Commission) and reputational. I cannot put a cedi value on it; the brief gives no penalty or complaint history. The cost of a failure is the ability to answer "did you delete it?" truthfully.
+- **What I did about it:** Designed ADR-003 (register plus deletion routine) and built the register tool with tests (`improvement/`). It starts recording from day one; older copies still need the first-90-days search.
+- **Residual risk:** Older copies are unknown; the register records what people declare, not what they hide. Spot-checks are built into the roadmap.
 
-- **What it is:** The live website and MySQL database run on the same machine. The case states that Monday exports slowed the live site twice in the previous month. Reporting activity may therefore be competing with customer-facing operations for shared resources.
-- **How I detected it:** The shared-server arrangement and the two reported slowdowns are stated in the case brief.
-- **Scale:** The database is approximately 40 GB, and Monday exports contain a few hundred thousand rows. The duration of the slowdowns, number of affected users, and exact resource consumption are not supplied.
-- **Effect on the client's number:** The slowdown could affect customer experience and sales, but lost orders or revenue have not been quantified.
-- **What I did about it:** Identified the reporting workload and shared infrastructure as a performance risk. The reporting queries should be examined before attributing the slowdown to one specific technical cause.
-- **Residual risk:** The precise bottleneck is unknown. Possible contributing factors to check include:
-  - Queries scanning or returning more records than the report requires.
-  - Historical records being loaded when only a recent reporting period is needed.
-  - Selecting unnecessary columns.
-  - Expensive joins, sorting, or aggregations.
-  - Missing or unsuitable indexes.
-  - CPU, memory, disk I/O, or database-lock contention on the shared machine.
+### F-02: Monday exports slow the live website — Severity: High
 
-  These are investigation points, not confirmed causes. Query execution plans, records scanned versus returned, query duration, database metrics, and server metrics are needed to establish the cause.
+- **What it is:** Reports and customers use one database on one machine. Root cause: no separation between selling and reporting.
+- **How I detected it:** Two slowdowns during Monday exports, last month, are stated in the brief.
+- **Scale:** At about 4,000 orders a day, an average hour carries about 170 orders (4,000 ÷ 24). Each hour of crawl puts roughly that many orders at risk, more at peak. Duration of the two slowdowns: not supplied, so I cannot give a total.
+- **Effect on the client's number:** Lost or abandoned orders. Not quantified. Order value is not in the brief.
+- **What I did about it:** ADR-001 moves all reports and exports to the already-approved second copy of the database. The developer also checks the Monday queries for wasted work, as a cheap companion step.
+- **Residual risk:** I have not seen query logs, so I cannot rule out that one or two badly written queries are the trigger. If so, the second copy still fixes the effect on the site, but bad queries would then slow reports. Hence the check.
 
-### F-03: Nana's and Finance's reports do not agree — Severity: Medium (provisional)
+### F-03: Operations and Finance numbers disagree — Severity: Medium-High
 
-- **What it is:** Nana's Monday figures differ from Finance's spreadsheet. One possible explanation is that the teams use different definitions, filters, date ranges, or calculation methods for business metrics such as revenue, operating cost, or active customers.
-- **How I detected it:** The disagreement between Nana's and Finance's figures is stated in the case brief. The reason for the disagreement has not been established.
-- **Scale:** The number of affected metrics, size of the differences, and reporting periods involved are not known.
-- **Effect on the client's number:** Management may make decisions using inconsistent figures. The financial or operational impact cannot be quantified without comparing the reports.
-- **What I did about it:** Identified the need to compare the source data, reporting periods, filters, formulas, and metric definitions used by both reports.
-- **Residual risk:** Different metric definitions are only a hypothesis. Other possible causes include missing or duplicated records, different source extracts, timing differences, and calculation errors. The original reports and their underlying queries or formulas are needed to determine the cause.
+- **What it is:** The same week produces two different totals. Root cause (probable): each person calculates by hand, with their own rules and cut-off times, from separate exports.
+- **How I detected it:** Stated in the brief. I have not seen either file.
+- **Scale:** Unknown: number of metrics, size of gaps, periods affected.
+- **Effect on the client's number:** Every board number is open to challenge. The investors have already asked about data strategy; the first demand will be a number they can trust.
+- **What I did about it:** ADR-002 sets one written definition per key number and starting definitions for six of them. The first-month reconciliation tests whether rules are the only cause.
+- **Residual risk:** If the gap comes from missing or duplicate orders or from stock and payment data that disagree, definitions alone will not close it.
+
+### F-04: Stock counts may not be protected at the moment of sale — Severity: Medium (unverified)
+
+- **What it is:** The brief says stale stock is how the company oversells. I do not know whether the website checks stock in the main database at the moment of purchase.
+- **How I detected it:** Stated in the brief, as a constraint. The checkout behaviour is not described.
+- **Scale:** Unknown.
+- **Effect on the client's number:** Oversold orders mean refunds and angry customers. No count supplied.
+- **What I did about it:** ADR-004 keeps the sale-time check on the main database and adds a visible "last updated" time to the stock view.
+- **Residual risk:** If the checkout does not check live stock, this moves to the top of the list. It is the first item to verify.
+
+### F-05: One developer holds all the knowledge — Severity: Medium
+
+- **What it is:** One PHP/MySQL developer built and runs everything. Nobody else has run a data system or written Python professionally.
+- **How I detected it:** Stated in the brief.
+- **Scale:** One person.
+- **Effect on the client's number:** Not a number today; it becomes one the day that person leaves or is ill during a slowdown.
+- **What I did about it:** ADR-005 hires an engineer first; the first 90 days include a written set-up and recovery guide.
+- **Residual risk:** Until the engineer starts, the risk stands.
 
 ## Looked wrong, is not wrong
 
 | Apparent problem | Why it looks wrong | Why it is actually fine |
 |---|---|---|
-| The company does not have real-time reporting for every business area | Real-time analytics may appear desirable to investors | The case states that stock counts cannot go stale, while other data can refresh daily. Different data needs may justify different freshness levels; real-time processing is not automatically necessary everywhere. |
-| The database is approximately 40 GB | The size may sound large enough to require a complex data platform | Database size alone does not establish that a warehouse or lakehouse is necessary. The workload, growth, reporting needs, team capacity, and costs also matter. |
+| No data warehouse or lakehouse | Investors expect one and the developer suggested buying one | The database is about 40 GB and grows 15–20% a year. The problem is sharing a machine and not agreeing definitions, and a warehouse fixes neither on its own (ADR-001, ADR-002). |
+| Not real-time everywhere | A board member saw a live dashboard elsewhere | The brief states only stock counts must be fresh; everything else can refresh daily (ADR-004). |
+| 4,000 orders a day on one machine | It sounds like it needs a larger system | It is about one order every 22 seconds. That is a moderate load; the trouble is mixing it with reports. |
+| No forecasting yet | "ML for demand forecasting" is on the wish list | Forecasting needs a stable, agreed history. Building it on numbers that disagree would forecast the disagreement. It is placed at the end of the year as a test, not a hire. |
 
 ## Could not verify
 
-- The exact cause of the two live-site slowdowns.
-- Whether Monday reporting queries retrieve unnecessary historical records or select unnecessary columns.
-- Whether relevant indexes exist and are being used.
-- Query execution times, execution plans, rows scanned, rows returned, and database/server resource utilisation.
-- The exact difference between Nana's report and Finance's spreadsheet.
-- Whether the mismatch comes from metric definitions, date ranges, filters, missing records, duplicates, or calculation errors.
-- The number and locations of customer-data exports and copies.
-- Whether access controls, retention rules, and deletion procedures are consistently applied.
-- The number of orders or amount of revenue affected by reporting-related slowdowns.
-- The financial value of the risks identified above.
+- The exact cause of the two slowdowns, and how long each lasted.
+- How many orders, or how much revenue, were lost to them.
+- Whether Monday queries pull more history or columns than needed.
+- The size and cause of the gap between Nana's and Finance's numbers.
+- How many copies of customer lists exist, where, and who holds them, including any outside agency.
+- Whether the website checks stock in the main database at the moment of purchase.
+- The current server bill and the market cost of the two roles; I have assumed no figures.
+- Whether Ghanaian data protection rules restrict hosting customer data outside Ghana (relevant to the cloud warehouse alternative), and whether the Nigeria pilot brings Nigeria's own data protection law into play.
 
-**Evidence boundary:** Findings above are based on facts stated in the case brief and the learner's initial diagnosis. Items described as possible causes or explanations must be validated before being presented as established facts.
+**Evidence boundary:** Everything above is either stated in the brief or labelled as an assumption or a likely cause. Nothing has been measured.
