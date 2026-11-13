@@ -20,8 +20,8 @@ Submission repository for the DE01 Data Engineering and Analytics case study. Kl
 | 2. Hiring plan, first 90 days | `hiring_plan.md` |
 | 2. Investor questions | `investor_qa.md` |
 | 3. Decision records | `decisions/ADR-001` to `ADR-005` |
-| 4. Board presentation | `presentation/` (**not yet produced**) |
-| 5. Improvement beyond the brief | `improvement/` (customer-data register, built and tested) |
+| 4. Board presentation | `presentation/`  |
+| 5. Improvement beyond the brief | `improvement/improvement.md`  |
 
 ## Decision records
 
